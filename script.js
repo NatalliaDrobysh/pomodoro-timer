@@ -1,6 +1,6 @@
 const pomodoroTime = document.querySelector('#pomodoro-time');
 const startBtn = document.querySelector('#start');
-
+let isRunning = false;
 
 let timerId;
 let time = 1500;
@@ -8,38 +8,36 @@ let time = 1500;
 
 function countDownTime() {
     let minutes = Math.floor(time / 60);
-    if (minutes < 10) {
-      minutes = '0' + minutes;
-    }  
     let seconds = time % 60;
-    if (seconds < 10) {
-      seconds = '0' + seconds;
-    };
-    pomodoroTime.textContent = `${minutes}:${seconds}`;
+    pomodoroTime.textContent = `${createNull(minutes)}:${createNull(seconds)}`;
     time--;
 
     if (time <= 0) {
         clearInterval(timerId);
         pomodoroTime.textContent = '25:00';
-    } 
-
-    
+        startBtn.textContent = 'start';
+    }    
 
 }
 
-function createButtonStop() {
-    const stop = document.createElement('button');
-    stop.classList.add('stop', 'btn', 'btn-big');
-    stop.textContent = 'stop';
-    startBtn.replaceWith(stop);
-    stop.addEventListener('click', function() {
-      clearInterval(timerId);
-      stop.replaceWith(startBtn);
-   })
+
+function createNull(value) {
+  if (value < 10) {
+    return '0' + value;
+  } else {
+    return value;
+  }
 }
 
 
 startBtn.addEventListener('click', function() {
-    timerId = setInterval(countDownTime, 10); 
-    createButtonStop()
+    if (isRunning == true) {
+      clearInterval(timerId);
+      startBtn.textContent = 'start';
+      isRunning = false;
+    } else {
+       timerId = setInterval(countDownTime, 10);
+       startBtn.textContent = 'stop';
+       isRunning = true;
+    }
 })
