@@ -7,8 +7,8 @@ let time = 1500;
 
 
 function countDownTime() {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
     pomodoroTime.textContent = `${createNull(minutes)}:${createNull(seconds)}`;
     time--;
 
@@ -31,7 +31,7 @@ function createNull(value) {
 
 
 startBtn.addEventListener('click', function() {
-    if (isRunning == true) {
+    if (isRunning) {
       clearInterval(timerId);
       startBtn.textContent = 'start';
       isRunning = false;
